@@ -1,6 +1,6 @@
 'use strict';
 const http = require('http'),
-	fileSystem = require('fs'),
+	fs = require('fs'),
     path = require('path'),
 	url = require('url');
 
@@ -9,28 +9,28 @@ var urlMapping = {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 
 		let filePath = path.join(__dirname, 'data/plain_text.txt');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/json': function(req, res) {
 		res.writeHead(200, {'Content-Type': 'application/json'});
 
 		let filePath = path.join(__dirname, 'data/json_file.json');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/xml': function(req, res) {
 		res.writeHead(200, {'Content-Type': 'text/xml'});
 
 		let filePath = path.join(__dirname, 'data/xml_file.xml');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/html': function(req, res) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 
 		let filePath = path.join(__dirname, 'data/index.html');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/jpg': function(req, res) {
@@ -43,7 +43,7 @@ var urlMapping = {
 		console.log('Request for a picture');
 
 		let filePath = path.join(__dirname, 'data/image.jpg');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/bin': function(req, res) {
@@ -53,7 +53,7 @@ var urlMapping = {
 		});
 
 		let filePath = path.join(__dirname, 'data/boot.o');
-		let rs = fileSystem.createReadStream(filePath);
+		let rs = fs.createReadStream(filePath);
 	    rs.pipe(res);
 	},
 	'/test': function(req, res, options) {
@@ -74,7 +74,13 @@ var urlMapping = {
 	},
 
 	'/upload': function(req, res){
+		debugger;
+		let filePath = path.join(__dirname, 'upload/tmp.file');
+		let stream = fs.createWriteStream(filePath);
+		req.pipe(stream);
 
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end('Done \n');
 	}
 }
 
