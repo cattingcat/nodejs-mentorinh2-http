@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-mentoring-2-http",
+  "version": "1.0.0",
+  "description": "EPAM NodeJS mentoring",
+  "main": "server.js",
+  "scripts": {
+    "run": "node ./src/server.js",
+	"start": "supervisor ./src/server.js",
+    "run-dbg": "node --debug ./src/server.js",
+    "debugger": "node ./node_modules/node-inspector/bin/inspector.js &"
+  },
+  "author": "mark_martynov@epam.com",
+  "license": "ISC",
+  "devDependencies": {
+    "node-inspector": "*",
+    "node-supervisor": "^1.0.2"
+  },
+  "dependencies": {}
+}
