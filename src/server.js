@@ -34,17 +34,24 @@ var urlMapping = {
 	    rs.pipe(res);
 	},
 	'/jpg': function(req, res) {
-		res.writeHead(200, {
-			'Content-Type': 'image/jpeg',
-			'Cache-Control': 'public, max-age=31536000',
-			'Expires': new Date(Date.now() + 345600000).toUTCString()
-		});
+		if(req.headers['cache-control'] == 'no-cache'){
+			console.log('request for image');
+			res.writeHead(200, {
+				'Content-Type': 'image/jpeg',
+				'Cache-Control': 'public, max-age=31536000',
+				'Expires': new Date(Date.now() + 345600000).toUTCString()
+			});
 
-		console.log('Request for a picture');
-
-		let filePath = path.join(__dirname, 'data/image.jpg');
-		let rs = fs.createReadStream(filePath);
-	    rs.pipe(res);
+			let filePath = path.join(__dirname, 'data/image.jpg');
+			let rs = fs.createReadStream(filePath);
+		    rs.pipe(res);
+		} else {
+			console.log('image from cache');
+			res.writeHead(304, {
+				'Date': new Date(Date.now()).toUTCString()
+			});
+			res.end();
+		}
 	},
 	'/bin': function(req, res) {
 		res.writeHead(200, {
